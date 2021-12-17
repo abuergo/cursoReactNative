@@ -1,43 +1,62 @@
-import { Button, CheckBox, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, CheckBox, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import React from 'react'
 
 export const TodoItem = ({item, pressHandler, completedHandler}) => {
+
     return (
-        <View style={styles.containerItem}>
-
-                <Text style= {{textDecorationLine : item.complete === 'true' ? 'line-through' : 'normal'}}>
+        <View style= {styles.item}> 
+            <View style={styles.itemLeft}>
+                <TouchableOpacity style = {styles.square} onPress={() => completedHandler(item.key)}></TouchableOpacity>
+                <Text style= {{textDecorationLine : item.complete === 'true' ? 'line-through' : 'normal'}} >
                 {item.text}
-                </Text> 
-
-        <View style= {styles.botones}>
-          <Button title = "C" onPress = { () => completedHandler(item.key) } color = 'green' />  
-          <Button title = "X" onPress = { () => pressHandler(item.key) } color = 'red' />  
+                </Text>          
+            </View>  
+            
+            <TouchableOpacity onPress={() => pressHandler(item.key)}>
+                <FontAwesome5 
+                    name = 'trash'
+                    color = 'red'
+                    />
+            </TouchableOpacity>
         </View>
-        </View>  
     )};
 
 
-const styles = StyleSheet.create({
-    item: {
-        padding: 16,
-        marginTop: 16,
-        borderColor: '#bbb',
-        borderWidth: 1,
-        borderStyle: 'dashed',
-        borderRadius: 10
-    }, 
-    containerItem: {
-        flexDirection: 'row',
-        width: '90%',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        alignSelf: 'center',
-        marginVertical: '3%'
-    },
-    botones: {
-        flexDirection: 'row',
-        marginVertical: '3%',
-        padding: 10
-    }
-})
+
+    const styles = StyleSheet.create({
+        item: {
+            backgroundColor: '#fff',
+            padding: 15, 
+            borderRadius: 10,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: 20
+        },
+        itemLeft: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            flexWrap: 'wrap'
+        }, 
+        square:{
+            width: 24,
+            height: 24,
+            backgroundColor:'#F76C5E',
+            opacity: 0.4,
+            borderRadius: 5,
+            marginRight: 15,
+        }, 
+        itemText: {
+            maxWidth: '80%',
+    
+        },
+        circular: {
+            width: 12,
+            height: 12,
+            borderColor: 'grey',
+            borderWidth: 2,
+            borderRadius: 5,
+        }
+    })

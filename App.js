@@ -1,95 +1,57 @@
-import { Alert, Button, FlatList, Image, Keyboard, Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import React, { useState } from 'react';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Home from './screens/home';
+import { NavigationContainer } from '@react-navigation/native';
+import NotesStackScreen from './screens/notesStackScreen';
+import React from 'react';
+import Tasks from './screens/tasks';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import { AddTodo } from './components/AddTodo';
-import Header from './components/Header';
-import { TodoItem } from './components/TodoItem';
-
-// import { StatusBar } from 'expo-status-bar';
+const Tab = createBottomTabNavigator();
 
 export default function App() {
-
-  const [todos, setTodos] = useState([
-    { text: 'buy coffee', key: '1', complete: 'false'},
-    { text: 'create an app', key: '2', complete: 'false' },
-    { text: 'play on the switch', key: '3', complete: 'false' }
-  ]);
-
-  const completedHandler = (key) => {
-    console.log(key)
-    setTodos((todos)  => todos.map(todo => {
-      if(todo.key == key){
-        todo.complete = 'true';
-        return todo
-      } else {
-        return todo
-      }
-    }))
-  }
-
-  const pressHandler = (key) => {
-    Alert.alert('Delete to do', 'Are you sure you want to delete it?', [
-      {text: 'Yes', onPress: () => setTodos( (todos) => {
-        return todos.filter(todo => todo.key != key)
-    })},{ text: 'No', onPress: () => console.log('alert closed with no')  }
-    ])
-  }
-
-  const submitHandler = (text) => {
-    if(text.length > 3){
-      setTodos((todos) => {
-        return [ {text: text, key: Math.random().toString(), complete: 'false'}
-          , ...todos]
-    } )
-    } else {
-      Alert.alert('OOPS!', 'To dos must be over 3 chars long', [
-        {text: 'Understood', onPress: () => console.log('alert closed')}
-      ])
-    }
-  }
-
   return (
-     <TouchableWithoutFeedback onPress={ () => {
-       Keyboard.dismiss();
-       console.log('dismissed keyboard');
-       } }>
-     <View style={styles.container}>
-       <Header />
-
-       <AddTodo submitHandler = {submitHandler} />
-       <View style = {styles.content}> 
-         {/* to form */ }
-         <View style = {styles.list}>
-           {todos.length > 0 ? 
-          <View>
-            <FlatList 
-              data={todos}
-              renderItem={({item}) => (
-                <TodoItem item={item} pressHandler={pressHandler} completedHandler={completedHandler}/>
-         )}/>
-          </View>
-           :
-           <Text>No tasks for the moment</Text>
+       <NavigationContainer>
+         <Tab.Navigator
+          screenOptions = {({route}) => ({
+            tabBarIcon: ({focused, size, color}) => {
+              let iconName;
+              if(route.name === 'Home'){
+                iconName = 'home';
+                size = focused ? 25 : 20;
+                color = focused ? 'orange' : 'grey';
+              } else if(route.name === 'Notes'){
+                iconName = 'sticky-note';
+                size = focused ? 25 : 20;
+                color = focused ? 'orange' : 'grey';
+              } else if(route.name === 'Tasks'){
+                iconName = 'tasks';
+                size = focused ? 25 : 20;
+                color = focused ? 'orange' : 'grey';
+              }
+              return (<FontAwesome5 
+                name = {iconName}
+                size = {size}
+                color = {color}
+                />)
             }
-         </View>
-       </View>
-    </View>
-    </TouchableWithoutFeedback>
+          })}
+         >
+           <Tab.Screen 
+             name = "Home"
+             component = {Home}
+           />
+          <Tab.Screen 
+            name = "Notes"
+            component = {NotesStackScreen}
+            options={{
+              headerShown: false }}
+          />
+          <Tab.Screen 
+            name = "Tasks"
+            component = {Tasks}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 40, 
-    paddingHorizontal: 20
-  },
-  content: {
-    padding: 40,
-  }, 
-  list: {
-    marginTop: 20,
-  }
-});
-
