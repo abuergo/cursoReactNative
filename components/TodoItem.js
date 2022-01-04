@@ -3,18 +3,24 @@ import { Button, CheckBox, StyleSheet, Text, Touchable, TouchableOpacity, View }
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import React from 'react'
 
-export const TodoItem = ({item, pressHandler, completedHandler}) => {
+export const TodoItem = ({item, deleteHandler, completedHandler}) => {
 
     return (
         <View style= {styles.item}> 
             <View style={styles.itemLeft}>
-                <TouchableOpacity style = {styles.square} onPress={() => completedHandler(item.key)}></TouchableOpacity>
-                <Text style= {{textDecorationLine : item.complete === 'true' ? 'line-through' : 'normal'}} >
-                {item.text}
+                <TouchableOpacity style = {styles.square} onPress={() => completedHandler(item.id, item.completed)}>
+                    { item.completed ?
+                        <FontAwesome5 name='check' size={24} color={'green'}></FontAwesome5>
+                        :
+                        <View></View>
+                    }
+                </TouchableOpacity>
+                <Text style= {{textDecorationLine : item.completed ? 'line-through' : 'none'}} >
+                <Text> {item.title} </Text>
                 </Text>          
             </View>  
             
-            <TouchableOpacity onPress={() => pressHandler(item.key)}>
+            <TouchableOpacity onPress={() => deleteHandler(item.id)}>
                 <FontAwesome5 
                     name = 'trash'
                     color = 'red'
@@ -41,9 +47,9 @@ export const TodoItem = ({item, pressHandler, completedHandler}) => {
             flexWrap: 'wrap'
         }, 
         square:{
-            width: 24,
-            height: 24,
-            backgroundColor:'#F76C5E',
+            width: 22,
+            height: 23,
+            backgroundColor:'orange',
             opacity: 0.4,
             borderRadius: 5,
             marginRight: 15,

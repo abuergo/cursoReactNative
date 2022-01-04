@@ -1,16 +1,12 @@
-import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 
-import NotesStackScreen from './notesStackScreen';
-// import {Button} from 'react-native-web';
 import React from 'react'
-import creatingNote from './creatingNote'
-import { useNavigation } from '@react-navigation/native'
 
 export default function Home({navigation}){
 
-    const goToNotes = () => {
-        navigation.navigate("Notes", {
-            screen: 'Notes'
+    const goToCamera = () => {
+        navigation.navigate("Camera", {
+            screen: 'Camera'
         })
     }
 
@@ -21,13 +17,13 @@ export default function Home({navigation}){
     return (
         <View style={styles.container}>
         <TouchableOpacity
-            style = {styles.boton}
-            onPress = {goToNotes}
+            style = {styles.button}
+            onPress = {goToCamera}
         >
-            <Text style = {styles.touchableTitle}>GO TO NOTES</Text>    
+            <Text style = {styles.touchableTitle}>GO TO CAMERA</Text>    
         </TouchableOpacity>
         <TouchableOpacity
-            style = {styles.boton}
+            style = {styles.button}
             onPress = {goToTasks}
         >
             <Text style = {styles.touchableTitle}>GO TO TASKS</Text>    
@@ -42,20 +38,24 @@ const styles = StyleSheet.create({
         padding: 24,
         backgroundColor: '#FCECD9',
     },
-    boton: {
+    button: {
         backgroundColor: 'orange',
         padding: 15, 
         borderRadius: 10,
         alignItems: 'center',
         marginBottom: 5,
         marginTop: 10,
-        marginHorizontal: 30
+        marginHorizontal: 30,
+
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1},
+        shadowOpacity: 0.8,
+        shadowRadius: 4,  
+        elevation: 5
     },
     touchableTitle: {
         fontSize: 15,
+        color: "white",
         fontWeight: "bold"
     }
-
-
-
 })
