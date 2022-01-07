@@ -1,5 +1,5 @@
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 import { auth } from '../firebase/config';
@@ -19,7 +19,7 @@ export default function register(){
                 .then(response => console.log(response) )
                 .catch(error => setError(error))
                 .finally( ()=> {
-                    alert("User created!")
+                    Alert.alert("Success","Congratulations! Your account has been successfully created.")
                     //Se desmonta el componente, por lo tanto no es necesario limpiar este form.
                     // setForm({username: "", email: "", password: "", confirmPass: ""})
                 });

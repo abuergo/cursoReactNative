@@ -3,7 +3,6 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 import Camera from './screens/camera';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Home from './screens/home';
 import Login from './screens/login';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
@@ -45,11 +44,7 @@ export default function App() {
           screenOptions = {({route}) => ({
             tabBarIcon: ({focused, size, color}) => {
               let iconName;
-              if(route.name === 'Home'){
-                iconName = 'home';
-                size = focused ? 25 : 20;
-                color = focused ? 'orange' : 'grey';
-              } else if(route.name === 'Camera'){
+              if(route.name === 'Camera'){
                 iconName = 'camera';
                 size = focused ? 25 : 20;
                 color = focused ? 'orange' : 'grey';
@@ -83,18 +78,14 @@ export default function App() {
           {
             user ? 
             <> 
-              <Tab.Screen 
-             name = "Home"
-             component = {Home}
-             />
+            <Tab.Screen 
+              name = "Tasks"
+              component = {Tasks}
+            />
               <Tab.Screen 
              name = "Camera"
              component = {Camera}
              />
-              <Tab.Screen 
-                name = "Tasks"
-                component = {Tasks}
-              />
             </>
             :
             <>
